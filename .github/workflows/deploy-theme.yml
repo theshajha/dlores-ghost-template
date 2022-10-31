@@ -1,0 +1,19 @@
+name: Deploy Dlores Ghost Theme
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@main
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+      - run: npm install
+        working-directory: ./src
+      - name: Build and deploy the theme
+        working-directory: ./src
+        run: npm run deploy
+        env:
+          GHOST_ADMIN_API_URL: ${{ secrets.GHOST_ADMIN_API_URL }}
+          GHOST_ADMIN_API_KEY: ${{ secrets.GHOST_ADMIN_API_KEY }}
